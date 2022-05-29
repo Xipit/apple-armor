@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "apple-armor",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Apple Armor",
+  "description": "Adds apple armor, which restores hunger when damaged",
   "authors": [
-    "Me!"
+    "Xipit"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/Xipit/apple-armor",
+    "sources": "https://github.com/Xipit/apple-armor"
   },
 
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "license": "MIT",
+  "icon": "assets/apple.armor/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "xipit.apple.armor.AppleArmorMod"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "apple-armor.mixins.json"
   ],
 
   "depends": {
