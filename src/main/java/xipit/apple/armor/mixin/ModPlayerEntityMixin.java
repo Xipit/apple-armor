@@ -47,7 +47,7 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
             ItemStack itemStack = this.inventory.armor.get(i);
             Item item = itemStack.getItem();
 
-            // food gets decreased a bit if you have >1 pieces to give enough power to just
+            // food gets decreased a bit if you have >1 pieces to give enough power to
             // having 1 piece and not making 3-4 pieces overpowered
             if (item instanceof ArmorItem && ((ArmorItem)item).getMaterial() instanceof AppleArmorMaterial) {
                 food += (0.6 - 0.1 * piecesOfAppleArmor) + (0.15 * ((ArmorItem)item).getProtection());
@@ -68,7 +68,6 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
         this.world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_GENERIC_EAT, this.getSoundCategory(), 0.4F + food / 2.5F, 1.0F);
     }
 
-    //TODO: add bonus if all pieces are worn & balance hunger regen
 
     // why is there damageHelmet in PlayerEntity ??? --> only for falling blocks that will only damage helmets
     // see FoodComponent.class & Items.class for references
