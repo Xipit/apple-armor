@@ -1,12 +1,19 @@
 package xipit.apple.armor.mixin;
 
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.passive.ParrotEntity;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -17,11 +24,18 @@ import xipit.apple.armor.AppleArmorMod;
 import xipit.apple.armor.armor.AppleArmorMaterial;
 
 @Mixin(PlayerEntity.class)
-public abstract class ModPlayerEntityMixin {
+public abstract class ModPlayerEntityMixin extends LivingEntity {
+    protected ModPlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
+        super(entityType, world);
+    }
 
     @Shadow public abstract HungerManager getHungerManager();
 
     @Shadow @Final private PlayerInventory inventory;
+
+    @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
+
+    @Shadow public abstract SoundCategory getSoundCategory();
 
     @Inject(at = @At("TAIL"), method = "damageArmor")
     private void InjectDamageArmor(DamageSource source, float amount, CallbackInfo ci) {
@@ -51,6 +65,7 @@ public abstract class ModPlayerEntityMixin {
             return; // foodLevel is of type int => can't be increased by <1
         }
         this.getHungerManager().add(Math.max(1, (int)food), 0.3F);
+        this.world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_GENERIC_EAT, this.getSoundCategory(), 0.4F + food / 2.5F, 1.0F);
     }
 
     //TODO: add bonus if all pieces are worn & balance hunger regen
