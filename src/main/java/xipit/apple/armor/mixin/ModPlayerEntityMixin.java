@@ -25,25 +25,32 @@ public abstract class ModPlayerEntityMixin {
 
     @Inject(at = @At("TAIL"), method = "damageArmor")
     private void InjectDamageArmor(DamageSource source, float amount, CallbackInfo ci) {
-        final int[] slots = PlayerInventory.HELMET_SLOTS;
+        final int[] slots = PlayerInventory.ARMOR_SLOTS;
+        float food = 0;
+        int piecesOfAppleArmor = 0;
 
-        AppleArmorMod.LOGGER.info("ARMOR DAMAGED");
-
-        // seems to not fire for every armor slot
         for (int i : slots) {
             ItemStack itemStack = this.inventory.armor.get(i);
             Item item = itemStack.getItem();
 
-
-            if (item instanceof ArmorItem && ((ArmorItem) item).getMaterial() instanceof AppleArmorMaterial) {
-                addHunger();
-                AppleArmorMod.LOGGER.info("ADDDED HUNGER");
+            // food gets decreased a bit if you have >1 pieces to give enough power to just
+            // having 1 piece and not making 3-4 pieces overpowered
+            if (item instanceof ArmorItem && ((ArmorItem)item).getMaterial() instanceof AppleArmorMaterial) {
+                food += (0.6 - 0.1 * piecesOfAppleArmor) + (0.15 * ((ArmorItem)item).getProtection());
+                piecesOfAppleArmor += 1;
             }
         }
+
+        if(piecesOfAppleArmor == 4) food += 2;
+        addHunger(food);
+
     }
 
-    private void addHunger(){
-        this.getHungerManager().add(5, 0.2F);
+    private void addHunger(float food){
+        if(food < 1 && Math.random() <= food){
+            return; // foodLevel is of type int => can't be increased by <1
+        }
+        this.getHungerManager().add(Math.max(1, (int)food), 0.3F);
     }
 
     //TODO: add bonus if all pieces are worn & balance hunger regen

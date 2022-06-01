@@ -15,7 +15,7 @@ public class AppleArmorMaterial implements ArmorMaterial {
 
     @Override
     public int getDurability(EquipmentSlot slot){
-        int DURABILITY_MULTIPLIER = 13;
+        int DURABILITY_MULTIPLIER = 8;
         return BASE_DURABILITY[slot.getEntitySlotId()] * DURABILITY_MULTIPLIER;
     }
 
