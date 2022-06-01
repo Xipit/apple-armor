@@ -14,7 +14,7 @@
   },
 
   "license": "MIT",
-  "icon": "assets/apple.armor/icon.png",
+  "icon": "assets/apple-armor/icon.png",
 
   "environment": "*",
   "entrypoints": {

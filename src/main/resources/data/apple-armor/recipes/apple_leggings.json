@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "A A",
+    "A A"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:apple"
+    }
+  },
+  "result": {
+    "item": "apple-armor:apple_leggings",
+    "count": 1
+  }
+}
+
