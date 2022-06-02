@@ -42,7 +42,7 @@ public class AppleArmorMaterial implements ArmorMaterial {
 
     @Override
     public String getName() {
-        return "apple";
+        return "apple-armor";
     }
 
     @Override
