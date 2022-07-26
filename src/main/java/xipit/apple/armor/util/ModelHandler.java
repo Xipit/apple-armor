@@ -10,6 +10,6 @@ public class ModelHandler {
     public static final EntityModelLayer APPLE_HELMET = RegistryHelper.model(("catear_armor"));
 
     public static void init(BiConsumer<EntityModelLayer, TexturedModelData> consumer){
-        consumer.accept(APPLE_HELMET, TexturedModelData.of(AppleArmorHelmetModelData.getModelData(), 16, 16));
+        consumer.accept(APPLE_HELMET, TexturedModelData.of(AppleArmorHelmetModelData.getModelData(), 32, 32));
     }
 }

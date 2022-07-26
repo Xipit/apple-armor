@@ -19,15 +19,16 @@ public class AppleArmorHelmetModelData {
                 ModelPartBuilder.create(),
                 ModelTransform.NONE);
 
-        // TODO: add ModelData to head
+        //TODO: customize helmet
         head.addChild(
                 "helmet",
                 ModelPartBuilder.create()
                         .uv(0, 0)
                         .mirrored(false)
-                        .cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)),
+                        .cuboid(-4.0F, -32.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(1F)),
                 ModelTransform.of(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F)
         );
+
 
         return data;
     }
