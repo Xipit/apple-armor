@@ -7,6 +7,13 @@ public class AppleArmorHelmetModelData {
         ModelData data = new ModelData();
         ModelPartData root = data.getRoot();
 
+        root.addChild("hat", ModelPartBuilder.create(), ModelTransform.NONE);
+        root.addChild("body", ModelPartBuilder.create(), ModelTransform.NONE);
+        root.addChild("left_arm", ModelPartBuilder.create(), ModelTransform.NONE);
+        root.addChild("right_arm", ModelPartBuilder.create(), ModelTransform.NONE);
+        root.addChild("left_leg", ModelPartBuilder.create(), ModelTransform.NONE);
+        root.addChild("right_leg", ModelPartBuilder.create(), ModelTransform.NONE);
+
         var head = root.addChild(
                 "head",
                 ModelPartBuilder.create(),
