@@ -1,0 +1,1 @@
+- Protection Enchantments increase the "Replenish hunger" effect
