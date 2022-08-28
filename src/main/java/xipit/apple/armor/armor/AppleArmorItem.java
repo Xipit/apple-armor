@@ -4,7 +4,6 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
@@ -21,7 +20,7 @@ public class AppleArmorItem extends ArmorItem {
 
     @Override
     public void appendTooltip(ItemStack itemStack, World world, List<Text> tooltip, TooltipContext tooltipContext){
-        tooltip.add( new TranslatableText("item.apple-armor." + this.id + ".tooltip").formatted(Formatting.LIGHT_PURPLE));
-        tooltip.add( new TranslatableText("item.apple-armor.general.tooltip").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
+        tooltip.add( Text.translatable("item.apple-armor." + this.id + ".tooltip").formatted(Formatting.LIGHT_PURPLE));
+        tooltip.add( Text.translatable("item.apple-armor.general.tooltip").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
     }
 }
