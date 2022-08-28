@@ -8,15 +8,16 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import xipit.apple.armor.AppleArmorMod;
 import xipit.apple.armor.armor.AppleArmorHelmet;
+import xipit.apple.armor.armor.AppleArmorItem;
 import xipit.apple.armor.armor.AppleArmorMaterial;
 
 public class ModItems {
     public static final AppleArmorMaterial APPLE_ARMOR_MATERIAL = new AppleArmorMaterial();
 
-    public static final Item APPLE_HELMET = new AppleArmorHelmet(EquipmentSlot.HEAD, new Item.Settings().group(ItemGroup.COMBAT));
-    public static final Item APPLE_CHESTPLATE = new ArmorItem(APPLE_ARMOR_MATERIAL, EquipmentSlot.CHEST, new Item.Settings().group(ItemGroup.COMBAT));
-    public static final Item APPLE_LEGGINGS = new ArmorItem(APPLE_ARMOR_MATERIAL, EquipmentSlot.LEGS, new Item.Settings().group(ItemGroup.COMBAT));
-    public static final Item APPLE_BOOTS = new ArmorItem(APPLE_ARMOR_MATERIAL, EquipmentSlot.FEET, new Item.Settings().group(ItemGroup.COMBAT));
+    public static final Item APPLE_HELMET = new AppleArmorHelmet("apple_helmet", EquipmentSlot.HEAD);
+    public static final Item APPLE_CHESTPLATE = new AppleArmorItem("apple_chestplate", APPLE_ARMOR_MATERIAL, EquipmentSlot.CHEST);
+    public static final Item APPLE_LEGGINGS = new AppleArmorItem("apple_leggings", APPLE_ARMOR_MATERIAL, EquipmentSlot.LEGS);
+    public static final Item APPLE_BOOTS = new AppleArmorItem("apple_boots", APPLE_ARMOR_MATERIAL, EquipmentSlot.FEET);
 
     public static void register() {
         registerItem("apple_helmet", APPLE_HELMET);
