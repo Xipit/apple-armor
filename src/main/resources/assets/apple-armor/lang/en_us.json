@@ -1,0 +1,11 @@
+{
+  "item.apple-armor.apple_boots":               "Apple Boots",
+  "item.apple-armor.apple_boots.tooltip":       "replenishes hunger on being damaged",
+  "item.apple-armor.apple_leggings":            "Apple Leggings",
+  "item.apple-armor.apple_leggings.tooltip":    "replenishes hunger on being damaged",
+  "item.apple-armor.apple_chestplate":          "Apple Chestplate",
+  "item.apple-armor.apple_chestplate.tooltip":  "replenishes hunger on being damaged",
+  "item.apple-armor.apple_helmet":              "Apple Helmet",
+  "item.apple-armor.apple_helmet.tooltip":      "replenishes hunger on being damaged",
+  "item.apple-armor.general.tooltip":  "(increased when wearing the full set)"
+}

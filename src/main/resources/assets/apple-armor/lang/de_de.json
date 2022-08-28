@@ -1,0 +1,11 @@
+{
+  "item.apple-armor.apple_boots":               "Apfelstiefel",
+  "item.apple-armor.apple_boots.tooltip":       "füllt Hunger auf wenn Rüstung beschädigt wird",
+  "item.apple-armor.apple_leggings":            "Apfelhosen",
+  "item.apple-armor.apple_leggings.tooltip":    "füllt Hunger auf wenn Rüstung beschädigt wird",
+  "item.apple-armor.apple_chestplate":          "Apfelbrustpanzer",
+  "item.apple-armor.apple_chestplate.tooltip":  "füllt Hunger auf wenn Rüstung beschädigt wird",
+  "item.apple-armor.apple_helmet":              "Apfelhelm",
+  "item.apple-armor.apple_helmet.tooltip":      "füllt Hunger auf wenn Rüstung beschädigt wird",
+  "item.apple-armor.general.tooltip":  "(erhöht, wenn das komplette Set getragen wird)"
+}

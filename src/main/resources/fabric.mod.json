@@ -20,6 +20,9 @@
   "entrypoints": {
     "main": [
       "xipit.apple.armor.AppleArmorMod"
+    ],
+    "client": [
+      "xipit.apple.armor.AppleArmorClient"
     ]
   },
   "mixins": [
