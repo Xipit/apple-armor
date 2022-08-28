@@ -1,1 +1,1 @@
-- Protection Enchantments increase the "Replenish hunger" effect
+- update to 1.19.0
