@@ -1,5 +1,6 @@
 package xipit.apple.armor.mixin;
 
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -56,6 +57,10 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
         }
 
         if(piecesOfAppleArmor == 4) food += 2;
+
+        int protectionAmount = EnchantmentHelper.getProtectionAmount(this.inventory.armor, source);
+        food += 0.15 * protectionAmount;
+
         addHunger(food);
 
     }
