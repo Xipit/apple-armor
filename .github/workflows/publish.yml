@@ -44,12 +44,12 @@ jobs:
       - name: Publish (CurseForge/Modrinth)
         uses: Kir-Antipov/mc-publish@v2.1
         with:
-          modrinth-id: FIzl2Jhk
+          modrinth-id: uUJJOd68
           # modrinth-featured: true
           # modrinth-unfeature-mode: subset
           modrinth-token: "${{env.MODRINTH_TOKEN}}"
 
-          curseforge-id: 576251
+          curseforge-id: 665587
           curseforge-token: "${{env.CURSEFORGE_TOKEN}}"
 
           files-primary: build/libs/!(*-@(dev|sources)).jar
