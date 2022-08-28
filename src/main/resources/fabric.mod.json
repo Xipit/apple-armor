@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "id": "apple-armor",
-  "version": "${version}",
+  "version": "1.0.0+1.18.2",
 
   "name": "Apple Armor",
-  "description": "Adds apple armor, which restores hunger when damaged",
+  "description": "Adds apple armor, which replenishes hunger when damaged",
   "authors": [
     "Xipit"
   ],
