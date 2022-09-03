@@ -1,1 +1,3 @@
-- update to 1.19.0
+- adds full customization using MidnightLib
+- adjusts default calculation values (slight nerf)
+- improves how values after the comma (e.g. 0.6 in 2.6) are handled. Now turns 0.6 into a 60% chance of adding 1 hunger point.

@@ -7,5 +7,16 @@
   "item.apple-armor.apple_chestplate.tooltip":  "füllt Hunger auf wenn Rüstung beschädigt wird",
   "item.apple-armor.apple_helmet":              "Apfelhelm",
   "item.apple-armor.apple_helmet.tooltip":      "füllt Hunger auf wenn Rüstung beschädigt wird",
-  "item.apple-armor.general.tooltip":  "(erhöht, wenn das komplette Set getragen wird)"
+  "item.apple-armor.general.tooltip":  "(erhöht, wenn das komplette Set getragen wird)",
+
+  "apple-armor.midnightconfig.title":           "Apple Armor Konfiguration",
+  "apple-armor.midnightconfig.hungerPerArmorPiece": "Basis Hungerauffüllung eines Rüstungsteiles",
+  "apple-armor.midnightconfig.hungerIncreasedByProtection": "Hungerauffüllung Verstärkung eines Rüstungsteiles durch dessen Rüstungspunkte",
+  "apple-armor.midnightconfig.hungerIncreasedByProtectionEnchantmentLevel": "Hungerauffüllung Verstärkung eines Rüstungsteiles durch dessen Schutzverzauberungen",
+  "apple-armor.midnightconfig.hungerFullSetBonus": "Hungerauffüllung Verstärkung durch tragen des vollem Sets",
+  "apple-armor.midnightconfig.hungerDiminishedByArmorPieceCount": "Hungerauffüllung Verminderung von (Anzahl der Rüstungsteile - 1)!",
+  "apple-armor.midnightconfig.hungerSaturationModifier": "Sättigung der Hungerauffüllung",
+
+  "modmenu.descriptionTranslation.apple-armor": "Fügt Apfel Rüstungsset hinzu. Bekomme Schaden um deinen Hunger aufzufüllen!",
+  "modmenu.summaryTranslation.apple-armor": "Fügt Apfel Rüstungsset hinzu."
 }
