@@ -23,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xipit.apple.armor.AppleArmorMod;
 import xipit.apple.armor.armor.AppleArmorMaterial;
+import xipit.apple.armor.config.AppleArmorConfig;
 
 @Mixin(PlayerEntity.class)
 public abstract class ModPlayerEntityMixin extends LivingEntity {
@@ -44,6 +45,13 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
         float food = 0;
         int piecesOfAppleArmor = 0;
 
+        // config variables
+        final float cHungerPerArmorPiece = AppleArmorConfig.hungerPerArmorPiece;
+        final float cHungerDiminishedByArmorPieceCount = AppleArmorConfig.hungerDiminishedByArmorPieceCount;
+        final float cHungerIncreasedByProtection = AppleArmorConfig.hungerIncreasedByProtection;
+        final float cHungerFullSetBonus = AppleArmorConfig.hungerFullSetBonus;
+        final float cHungerIncreasedByProtectionEnchantmentLevel = AppleArmorConfig.hungerIncreasedByProtectionEnchantmentLevel;
+
         for (int i : slots) {
             ItemStack itemStack = this.inventory.armor.get(i);
             Item item = itemStack.getItem();
@@ -51,25 +59,29 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
             // food gets decreased a bit if you have >1 pieces to give enough power to
             // having 1 piece and not making 3-4 pieces overpowered
             if (item instanceof ArmorItem && ((ArmorItem)item).getMaterial() instanceof AppleArmorMaterial) {
-                food += (0.6 - 0.1 * piecesOfAppleArmor) + (0.15 * ((ArmorItem)item).getProtection());
+                food += (cHungerPerArmorPiece - cHungerDiminishedByArmorPieceCount * piecesOfAppleArmor) + (cHungerIncreasedByProtection * ((ArmorItem)item).getProtection());
                 piecesOfAppleArmor += 1;
             }
         }
 
-        if(piecesOfAppleArmor == 4) food += 2;
+        if(piecesOfAppleArmor == 4) food += cHungerFullSetBonus;
 
         int protectionAmount = EnchantmentHelper.getProtectionAmount(this.inventory.armor, source);
-        food += 0.15 * protectionAmount;
+        food += cHungerIncreasedByProtectionEnchantmentLevel * protectionAmount;
 
         addHunger(food);
 
     }
 
     private void addHunger(float food){
-        if(food < 1 && Math.random() <= food){
-            return; // foodLevel is of type int => can't be increased by <1
-        }
-        this.getHungerManager().add(Math.max(1, (int)food), 0.3F);
+        final float cHungerSaturationModifier = AppleArmorConfig.hungerSaturationModifier;
+
+        final int flooredFood = (int) Math.floor(food);
+
+        final float cutOffFoodChance = food % 1;
+        final int cutOffFood = cutOffFoodChance >= Math.random() ? 1 : 0;
+
+        this.getHungerManager().add(Math.max(1, flooredFood + cutOffFood), cHungerSaturationModifier);
         this.world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_GENERIC_EAT, this.getSoundCategory(), 0.4F + food / 2.5F, 1.0F);
     }
 
