@@ -7,5 +7,16 @@
   "item.apple-armor.apple_chestplate.tooltip":  "replenishes hunger on being damaged",
   "item.apple-armor.apple_helmet":              "Apple Helmet",
   "item.apple-armor.apple_helmet.tooltip":      "replenishes hunger on being damaged",
-  "item.apple-armor.general.tooltip":  "(increased when wearing the full set)"
+  "item.apple-armor.general.tooltip":           "(increased when wearing the full set)",
+
+  "apple-armor.midnightconfig.title":           "Apple Armor Configuration",
+  "apple-armor.midnightconfig.hungerPerArmorPiece": "Base hunger replenished by one armor piece",
+  "apple-armor.midnightconfig.hungerIncreasedByProtection": "Hunger replenish increase by base armor piece protection value",
+  "apple-armor.midnightconfig.hungerIncreasedByProtectionEnchantmentLevel": "Hunger replenish increase by armor piece protection enchantment level",
+  "apple-armor.midnightconfig.hungerFullSetBonus": "Hunger replenish increase for wearing full set",
+  "apple-armor.midnightconfig.hungerDiminishedByArmorPieceCount": "Hunger replenish decrease by (armor piece count - 1)!",
+  "apple-armor.midnightconfig.hungerSaturationModifier": "Saturation of replenished hunger",
+
+  "modmenu.descriptionTranslation.apple-armor": "Adds apple armor set. Being hit replenishes your hunger!",
+  "modmenu.summaryTranslation.apple-armor": "Adds apple armor set"
 }
