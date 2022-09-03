@@ -11,3 +11,7 @@ Apple is a fabric mod for minecraft that adds apple armor
 ## 🍏 - Features
 
 - adds Apple Armor which replenishes hunger when being damaged
+
+## :octocat: - Dependencies
+
+- [MidnightLib](https://github.com/TeamMidnightDust/MidnightLib) -> configuration
