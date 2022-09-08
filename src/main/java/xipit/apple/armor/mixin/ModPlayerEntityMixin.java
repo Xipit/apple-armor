@@ -2,18 +2,20 @@ package xipit.apple.armor.mixin;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.passive.ParrotEntity;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -56,11 +58,23 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
             ItemStack itemStack = this.inventory.armor.get(i);
             Item item = itemStack.getItem();
 
+
             // food gets decreased a bit if you have >1 pieces to give enough power to
             // having 1 piece and not making 3-4 pieces overpowered
             if (item instanceof ArmorItem && ((ArmorItem)item).getMaterial() instanceof AppleArmorMaterial) {
                 food += (cHungerPerArmorPiece - cHungerDiminishedByArmorPieceCount * piecesOfAppleArmor) + (cHungerIncreasedByProtection * ((ArmorItem)item).getProtection());
                 piecesOfAppleArmor += 1;
+
+                // armor breaks
+                float enduredDamage = itemStack.getDamage() + amount;
+                if(enduredDamage > itemStack.getMaxDamage()){
+                    AppleArmorMod.LOGGER.info("miiiiiiiiiiiiiiiiiiiiiiiiiiiiiiixxxxxxxxxxxxxxxxiiiiiiiiiiiiiiiiiiiiiiiiiiiiinnnnnnnnnnnnnnnnnn");
+                    AppleArmorMod.LOGGER.info(item.getName().toString());
+                    AppleArmorMod.LOGGER.info(itemStack.getTranslationKey());
+                    AppleArmorMod.LOGGER.info("enduredDamage: " + enduredDamage);
+
+                    dropApple(5);
+                }
             }
         }
 
@@ -83,6 +97,19 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
 
         this.getHungerManager().add(Math.max(1, flooredFood + cutOffFood), cHungerSaturationModifier);
         this.world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_GENERIC_EAT, this.getSoundCategory(), 0.4F + food / 2.5F, 1.0F);
+    }
+
+    // inspired by PlayerEntity.dropItem()
+    private void dropApple(int count){
+        ItemStack appleItemStack = new ItemStack(Items.APPLE, count);
+        ItemEntity itemEntity = new ItemEntity(this.world, this.getX(), this.getY(), this.getZ(), appleItemStack);
+        itemEntity.setPickupDelay(40);
+
+        float f = this.random.nextFloat() * 0.5F;
+        float g = this.random.nextFloat() * 6.2831855F;
+        itemEntity.setVelocity(-MathHelper.sin(g) * f, 0.20000000298023224, MathHelper.cos(g) * f);
+
+
     }
 
 
