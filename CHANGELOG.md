@@ -1,3 +1,3 @@
-- adds full customization using MidnightLib
-- adjusts default calculation values (slight nerf)
-- improves how values after the comma (e.g. 0.6 in 2.6) are handled. Now turns 0.6 into a 60% chance of adding 1 hunger point.
+- apple(s) drop when an armor piece breaks (configurable)
+- improved configuration structure and cleaned up descriptions
+- continuing forward: version numbers won't change for different Minecraft versions (e.g. 1.2.0+1.18.2 & 1.2.0+1.19.2 instead of 1.1.0+1.18.2 & 1.1.1+1.19.2)

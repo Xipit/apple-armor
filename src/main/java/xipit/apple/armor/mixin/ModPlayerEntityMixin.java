@@ -73,6 +73,8 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
                 // armor breaks
                 float enduredDamage = itemStack.getDamage() + amount;
                 if(enduredDamage > itemStack.getMaxDamage()){
+                    if(cApplesDroppedOnArmorPieceBreak == 0) return;
+
                     dropApple(((ArmorItem) item).getSlotType() == EquipmentSlot.CHEST ? (cApplesDroppedOnArmorPieceBreak + 1) : cApplesDroppedOnArmorPieceBreak);
                 }
             }
