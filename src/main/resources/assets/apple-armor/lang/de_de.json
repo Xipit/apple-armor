@@ -9,13 +9,15 @@
   "item.apple-armor.apple_helmet.tooltip":      "füllt Hunger auf wenn Rüstung beschädigt wird",
   "item.apple-armor.general.tooltip":  "(erhöht, wenn das komplette Set getragen wird)",
 
-  "apple-armor.midnightconfig.title":           "Apple Armor Konfiguration",
-  "apple-armor.midnightconfig.hungerPerArmorPiece": "Basis Hungerauffüllung eines Rüstungsteiles",
-  "apple-armor.midnightconfig.hungerIncreasedByProtection": "Hungerauffüllung Verstärkung eines Rüstungsteiles durch dessen Rüstungspunkte",
-  "apple-armor.midnightconfig.hungerIncreasedByProtectionEnchantmentLevel": "Hungerauffüllung Verstärkung eines Rüstungsteiles durch dessen Schutzverzauberungen",
-  "apple-armor.midnightconfig.hungerFullSetBonus": "Hungerauffüllung Verstärkung durch tragen des vollem Sets",
-  "apple-armor.midnightconfig.hungerDiminishedByArmorPieceCount": "Hungerauffüllung Verminderung von (Anzahl der Rüstungsteile - 1)!",
-  "apple-armor.midnightconfig.hungerSaturationModifier": "Sättigung der Hungerauffüllung",
+  "apple-armor.midnightconfig.hungerConfigComment": "Hungerauffüllung wenn ein Rüstungsteil Schaden erleidet:",
+  "apple-armor.midnightconfig.hungerPerArmorPiece": " -> Grundwert",
+  "apple-armor.midnightconfig.hungerIncreasedByProtection": " -> Verstärkung durch Rüstungspunkte",
+  "apple-armor.midnightconfig.hungerIncreasedByProtectionEnchantmentLevel": " -> Verstärkung durch Schutzverzauberungen",
+  "apple-armor.midnightconfig.hungerFullSetBonus": " -> Bonus bei vollem Rüstungsset",
+  "apple-armor.midnightconfig.hungerDiminishedByArmorPieceCount": " -> Verminderung durch '(Anzahl der Rüstungsteile - 1)!'",
+  "apple-armor.midnightconfig.hungerSaturationModifier": " -> Sättigung",
+  "apple-armor.midnightconfig.otherConfigComment":              "Sonstiges:",
+  "apple-armor.midnightconfig.applesDroppedOnArmorPieceBreak":  " -> Äpfel fallengelassen wenn Rüstung zerbricht (+1 bei Brustpanzer)",
 
   "modmenu.descriptionTranslation.apple-armor": "Fügt Apfel Rüstungsset hinzu. Bekomme Schaden um deinen Hunger aufzufüllen!",
   "modmenu.summaryTranslation.apple-armor": "Fügt Apfel Rüstungsset hinzu."
