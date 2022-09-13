@@ -2,6 +2,7 @@ package xipit.apple.armor.mixin;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -17,6 +18,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -41,6 +43,8 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
 
     @Shadow public abstract SoundCategory getSoundCategory();
 
+    @Shadow @Nullable public abstract ItemEntity dropItem(ItemStack stack, boolean retainOwnership);
+
     @Inject(at = @At("TAIL"), method = "damageArmor")
     private void InjectDamageArmor(DamageSource source, float amount, CallbackInfo ci) {
         final int[] slots = PlayerInventory.ARMOR_SLOTS;
@@ -53,6 +57,7 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
         final float cHungerIncreasedByProtection = AppleArmorConfig.hungerIncreasedByProtection;
         final float cHungerFullSetBonus = AppleArmorConfig.hungerFullSetBonus;
         final float cHungerIncreasedByProtectionEnchantmentLevel = AppleArmorConfig.hungerIncreasedByProtectionEnchantmentLevel;
+        final int cApplesDroppedOnArmorPieceBreak = AppleArmorConfig.applesDroppedOnArmorPieceBreak;
 
         for (int i : slots) {
             ItemStack itemStack = this.inventory.armor.get(i);
@@ -68,12 +73,7 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
                 // armor breaks
                 float enduredDamage = itemStack.getDamage() + amount;
                 if(enduredDamage > itemStack.getMaxDamage()){
-                    AppleArmorMod.LOGGER.info("miiiiiiiiiiiiiiiiiiiiiiiiiiiiiiixxxxxxxxxxxxxxxxiiiiiiiiiiiiiiiiiiiiiiiiiiiiinnnnnnnnnnnnnnnnnn");
-                    AppleArmorMod.LOGGER.info(item.getName().toString());
-                    AppleArmorMod.LOGGER.info(itemStack.getTranslationKey());
-                    AppleArmorMod.LOGGER.info("enduredDamage: " + enduredDamage);
-
-                    dropApple(5);
+                    dropApple(((ArmorItem) item).getSlotType() == EquipmentSlot.CHEST ? (cApplesDroppedOnArmorPieceBreak + 1) : cApplesDroppedOnArmorPieceBreak);
                 }
             }
         }
@@ -99,17 +99,10 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
         this.world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_GENERIC_EAT, this.getSoundCategory(), 0.4F + food / 2.5F, 1.0F);
     }
 
-    // inspired by PlayerEntity.dropItem()
     private void dropApple(int count){
         ItemStack appleItemStack = new ItemStack(Items.APPLE, count);
-        ItemEntity itemEntity = new ItemEntity(this.world, this.getX(), this.getY(), this.getZ(), appleItemStack);
-        itemEntity.setPickupDelay(40);
 
-        float f = this.random.nextFloat() * 0.5F;
-        float g = this.random.nextFloat() * 6.2831855F;
-        itemEntity.setVelocity(-MathHelper.sin(g) * f, 0.20000000298023224, MathHelper.cos(g) * f);
-
-
+        this.dropItem(appleItemStack, false);
     }
 
 

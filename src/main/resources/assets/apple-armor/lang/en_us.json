@@ -9,13 +9,16 @@
   "item.apple-armor.apple_helmet.tooltip":      "replenishes hunger on being damaged",
   "item.apple-armor.general.tooltip":           "(increased when wearing the full set)",
 
-  "apple-armor.midnightconfig.title":           "Apple Armor Configuration",
-  "apple-armor.midnightconfig.hungerPerArmorPiece": "Base hunger replenished by one armor piece",
-  "apple-armor.midnightconfig.hungerIncreasedByProtection": "Hunger replenish increase by base armor piece protection value",
-  "apple-armor.midnightconfig.hungerIncreasedByProtectionEnchantmentLevel": "Hunger replenish increase by armor piece protection enchantment level",
-  "apple-armor.midnightconfig.hungerFullSetBonus": "Hunger replenish increase for wearing full set",
-  "apple-armor.midnightconfig.hungerDiminishedByArmorPieceCount": "Hunger replenish decrease by (armor piece count - 1)!",
-  "apple-armor.midnightconfig.hungerSaturationModifier": "Saturation of replenished hunger",
+  "apple-armor.midnightconfig.title":                           "Apple Armor Configuration",
+  "apple-armor.midnightconfig.hungerConfigComment":             "Hunger Replenished when Apple Armor takes damage:",
+  "apple-armor.midnightconfig.hungerPerArmorPiece":             " -> Base value",
+  "apple-armor.midnightconfig.hungerIncreasedByProtection":     " -> Increase by base protection value",
+  "apple-armor.midnightconfig.hungerIncreasedByProtectionEnchantmentLevel": " -> Increase by protection enchantment level",
+  "apple-armor.midnightconfig.hungerFullSetBonus":              " -> Full Set Bonus",
+  "apple-armor.midnightconfig.hungerDiminishedByArmorPieceCount": " -> Decrease by '(armor piece count - 1)!'",
+  "apple-armor.midnightconfig.hungerSaturationModifier":        " -> Saturation",
+  "apple-armor.midnightconfig.otherConfigComment":              "Other:",
+  "apple-armor.midnightconfig.applesDroppedOnArmorPieceBreak":  " -> Apples dropped when armor breaks (+1 for chest)",
 
   "modmenu.descriptionTranslation.apple-armor": "Adds apple armor set. Being hit replenishes your hunger!",
   "modmenu.summaryTranslation.apple-armor": "Adds apple armor set"
