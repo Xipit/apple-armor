@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class AppleArmorItem extends ArmorItem {
-    private final String id;
+    protected final String id;
 
 
     public AppleArmorItem(String id, ArmorMaterial material, EquipmentSlot slot) {
