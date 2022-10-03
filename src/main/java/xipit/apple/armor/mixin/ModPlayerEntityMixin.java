@@ -6,6 +6,8 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -25,6 +27,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xipit.apple.armor.AppleArmorMod;
+import xipit.apple.armor.Enums.ArmorType;
 import xipit.apple.armor.armor.AppleArmorMaterial;
 import xipit.apple.armor.armor.GoldenAppleArmorMaterial;
 import xipit.apple.armor.config.AppleArmorConfig;
@@ -65,7 +69,7 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
 
             // food gets decreased a bit if you have >1 pieces to give enough power to
             // having 1 piece and not making 3-4 pieces overpowered
-            if (item instanceof ArmorItem && ((ArmorItem)item).getMaterial() instanceof AppleArmorMaterial) {
+            if (item instanceof ArmorItem && (!getArmorType(itemStack).equals(ArmorType.NONE))) {
                 food += (cHungerPerArmorPiece - cHungerDiminishedByArmorPieceCount * piecesOfAppleArmor) + (cHungerIncreasedByProtection * ((ArmorItem)item).getProtection());
                 piecesOfAppleArmor += 1;
 
@@ -74,6 +78,9 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
                 if(enduredDamage > itemStack.getMaxDamage()){
                     dropApple(itemStack);
                 }
+
+                // TODO balancing for the count of golden armor piece the player is wearing
+                addStatusEffects(itemStack);
             }
         }
 
@@ -88,6 +95,7 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
 
     private void addHunger(float food){
         final float cHungerSaturationModifier = AppleArmorConfig.hungerSaturationModifier;
+        // TODO golden apple has 4x the saturation
 
         final int flooredFood = (int) Math.floor(food);
 
@@ -108,27 +116,63 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
                 : cApplesDroppedOnArmorPieceBreak;
 
 
-        ItemStack appleItemStack = new ItemStack(getAppleItem(itemstack), count);
+        ItemStack appleItemStack = new ItemStack(getAppleItem(getArmorType(itemstack)), count);
 
         this.dropItem(appleItemStack, false);
     }
 
-    private Item getAppleItem(@NotNull ItemStack itemStack){
-        ArmorItem armorItem = (ArmorItem) itemStack.getItem();
-
-       if (armorItem.getMaterial() instanceof GoldenAppleArmorMaterial){
-            if(EnchantmentHelper.get(itemStack).isEmpty()){     // no enchantments on armor
-                return Items.GOLDEN_APPLE;
-            }
-            return Items.ENCHANTED_GOLDEN_APPLE;
-        }
-
-        return Items.APPLE;     // instanceof AppleArmorMaterial
+    private Item getAppleItem(ArmorType armorType){
+        return switch (armorType) {
+            case APPLE -> Items.APPLE;
+            case GOLDEN_APPLE -> Items.GOLDEN_APPLE;
+            case GOLDEN_APPLE_ENCHANTED -> Items.ENCHANTED_GOLDEN_APPLE;
+            case NONE -> null;
+        };
     }
 
     // why is there damageHelmet in PlayerEntity ??? --> only for falling blocks that will only damage helmets
     // see FoodComponent.class & Items.class for references
 
+
+    private void addStatusEffects(@NotNull ItemStack itemStack){
+        ArmorType armorType = getArmorType(itemStack);
+
+        switch (armorType){
+            case APPLE, NONE:
+                AppleArmorMod.LOGGER.info("APPLE ARMOR OR NONE DETECTED");
+                return;
+            case GOLDEN_APPLE:
+                AppleArmorMod.LOGGER.info("GOLDEN APPLE ARMOR DETECTED");
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION,   5,     1));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION,     120,     0));
+                return;
+            case GOLDEN_APPLE_ENCHANTED:
+                AppleArmorMod.LOGGER.info("ENCHANTED GOLDEN APPLE ARMOR DETECTED");
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION,   20, 1));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION,     120,     3));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE,     300,     0));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 300,    0));
+        }
+    }
+
+    private ArmorType getArmorType(ItemStack itemStack){
+        Item item = itemStack.getItem();
+        if(!(item instanceof ArmorItem)){
+            AppleArmorMod.LOGGER.info("getArmorType: " + item.getTranslationKey());
+            return ArmorType.NONE;
+        }
+
+        if(((ArmorItem)item).getMaterial() instanceof AppleArmorMaterial){
+            return ArmorType.APPLE;
+        }
+        if(((ArmorItem)item).getMaterial() instanceof GoldenAppleArmorMaterial){
+            if(EnchantmentHelper.get(itemStack).isEmpty()){     // no enchantments on armor
+                return ArmorType.GOLDEN_APPLE;
+            }
+            return ArmorType.GOLDEN_APPLE_ENCHANTED;
+        }
+        return ArmorType.NONE;
+    }
 
     // GOLDEN APPLE
     // reference from FoodComponent.class
