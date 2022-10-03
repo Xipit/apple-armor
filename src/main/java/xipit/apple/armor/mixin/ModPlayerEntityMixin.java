@@ -52,7 +52,9 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
     private void InjectDamageArmor(DamageSource source, float amount, CallbackInfo ci) {
         final int[] slots = PlayerInventory.ARMOR_SLOTS;
         float food = 0;
-        int piecesOfAppleArmor = 0;
+        int appleArmorCount = 0;
+        int goldenAppleArmorCount = 0;
+        int enchantedGoldenAppleArmorCount = 0;
 
         // config variables
         final float cHungerPerArmorPiece = AppleArmorConfig.hungerPerArmorPiece;
@@ -65,13 +67,18 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
         for (int slot : slots) {
             ItemStack itemStack = this.inventory.armor.get(slot);
             Item item = itemStack.getItem();
+            ArmorType armorType = getArmorType(itemStack);
 
 
             // food gets decreased a bit if you have >1 pieces to give enough power to
             // having 1 piece and not making 3-4 pieces overpowered
-            if (item instanceof ArmorItem && (!getArmorType(itemStack).equals(ArmorType.NONE))) {
-                food += (cHungerPerArmorPiece - cHungerDiminishedByArmorPieceCount * piecesOfAppleArmor) + (cHungerIncreasedByProtection * ((ArmorItem)item).getProtection());
-                piecesOfAppleArmor += 1;
+            if (item instanceof ArmorItem && (!armorType.equals(ArmorType.NONE))) {
+                food += (cHungerPerArmorPiece - cHungerDiminishedByArmorPieceCount * appleArmorCount) + (cHungerIncreasedByProtection * ((ArmorItem)item).getProtection());
+
+
+                appleArmorCount += 1;
+                if(armorType.equals(ArmorType.GOLDEN_APPLE))            { goldenAppleArmorCount += 1; }
+                if(armorType.equals(ArmorType.GOLDEN_APPLE_ENCHANTED))  { enchantedGoldenAppleArmorCount += 1; }
 
                 // armor breaks
                 float enduredDamage = itemStack.getDamage() + amount;
@@ -79,17 +86,18 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
                     dropApple(itemStack);
                 }
 
-                // TODO balancing for the count of golden armor piece the player is wearing
-                addStatusEffects(itemStack);
+
             }
         }
 
-        if(piecesOfAppleArmor == 4) food += cHungerFullSetBonus;
+        if(appleArmorCount == 4) food += cHungerFullSetBonus;
 
         int protectionAmount = EnchantmentHelper.getProtectionAmount(this.inventory.armor, source);
         food += cHungerIncreasedByProtectionEnchantmentLevel * protectionAmount;
 
         addHunger(food);
+        // TODO achievements
+        addStatusEffects(goldenAppleArmorCount, enchantedGoldenAppleArmorCount);
     }
 
 
@@ -134,31 +142,25 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
     // see FoodComponent.class & Items.class for references
 
 
-    private void addStatusEffects(@NotNull ItemStack itemStack){
-        ArmorType armorType = getArmorType(itemStack);
+    private void addStatusEffects(int goldenAppleArmorCount, int enchantedGoldenAppleArmorCount){
+        AppleArmorMod.LOGGER.info("golden Count: " + goldenAppleArmorCount + ", enchanted golden Count: " + enchantedGoldenAppleArmorCount);
 
-        switch (armorType){
-            case APPLE, NONE:
-                AppleArmorMod.LOGGER.info("APPLE ARMOR OR NONE DETECTED");
-                return;
-            case GOLDEN_APPLE:
-                AppleArmorMod.LOGGER.info("GOLDEN APPLE ARMOR DETECTED");
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION,   5,     1));
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION,     120,     0));
-                return;
-            case GOLDEN_APPLE_ENCHANTED:
-                AppleArmorMod.LOGGER.info("ENCHANTED GOLDEN APPLE ARMOR DETECTED");
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION,   20, 1));
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION,     120,     3));
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE,     300,     0));
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 300,    0));
+        // duration for one piece is 1/50th of the original value of 1 apple
+        if(goldenAppleArmorCount > 0){
+            this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION,   2 * goldenAppleArmorCount, 1));
+            this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION,     48 * goldenAppleArmorCount, 0));
+        }
+        if(enchantedGoldenAppleArmorCount > 0){
+            this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION,       8 * enchantedGoldenAppleArmorCount, 1));
+            this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION,         48 * enchantedGoldenAppleArmorCount, 3));
+            this.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE,         120 * enchantedGoldenAppleArmorCount, 0));
+            this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE,    120 * enchantedGoldenAppleArmorCount, 0));
         }
     }
 
     private ArmorType getArmorType(ItemStack itemStack){
         Item item = itemStack.getItem();
         if(!(item instanceof ArmorItem)){
-            AppleArmorMod.LOGGER.info("getArmorType: " + item.getTranslationKey());
             return ArmorType.NONE;
         }
 
