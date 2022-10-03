@@ -15,7 +15,7 @@ public class GoldenAppleArmorMaterial implements ArmorMaterial {
 
     @Override
     public int getDurability(EquipmentSlot slot){
-        int DURABILITY_MULTIPLIER = 6;
+        int DURABILITY_MULTIPLIER = 8;
         return BASE_DURABILITY[slot.getEntitySlotId()] * DURABILITY_MULTIPLIER;
     }
 
