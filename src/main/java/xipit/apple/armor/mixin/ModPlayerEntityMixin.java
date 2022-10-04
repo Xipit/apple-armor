@@ -52,7 +52,7 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
     private void InjectDamageArmor(DamageSource source, float amount, CallbackInfo ci) {
         final int[] slots = PlayerInventory.ARMOR_SLOTS;
         float food = 0;
-        int appleArmorCount = 0;
+        int allAppleArmorCount = 0;
         int goldenAppleArmorCount = 0;
         int enchantedGoldenAppleArmorCount = 0;
 
@@ -73,10 +73,10 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
             // food gets decreased a bit if you have >1 pieces to give enough power to
             // having 1 piece and not making 3-4 pieces overpowered
             if (item instanceof ArmorItem && (!armorType.equals(ArmorType.NONE))) {
-                food += (cHungerPerArmorPiece - cHungerDiminishedByArmorPieceCount * appleArmorCount) + (cHungerIncreasedByProtection * ((ArmorItem)item).getProtection());
+                food += (cHungerPerArmorPiece - cHungerDiminishedByArmorPieceCount * allAppleArmorCount) + (cHungerIncreasedByProtection * ((ArmorItem)item).getProtection());
 
 
-                appleArmorCount += 1;
+                allAppleArmorCount += 1;
                 if(armorType.equals(ArmorType.GOLDEN_APPLE))            { goldenAppleArmorCount += 1; }
                 if(armorType.equals(ArmorType.GOLDEN_APPLE_ENCHANTED))  { enchantedGoldenAppleArmorCount += 1; }
 
@@ -90,27 +90,35 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
             }
         }
 
-        if(appleArmorCount == 4) food += cHungerFullSetBonus;
+        if(allAppleArmorCount == 4) food += cHungerFullSetBonus;
 
         int protectionAmount = EnchantmentHelper.getProtectionAmount(this.inventory.armor, source);
         food += cHungerIncreasedByProtectionEnchantmentLevel * protectionAmount;
 
-        addHunger(food);
+        final float saturation = calculateFoodSaturation(allAppleArmorCount, (goldenAppleArmorCount + enchantedGoldenAppleArmorCount));
+        addHunger(food, saturation);
         // TODO achievements
         addStatusEffects(goldenAppleArmorCount, enchantedGoldenAppleArmorCount);
     }
 
-
-    private void addHunger(float food){
+    private float calculateFoodSaturation(int appleArmorCount, int goldenAndEnchantedGoldenAppleArmorCount){
         final float cHungerSaturationModifier = AppleArmorConfig.hungerSaturationModifier;
-        // TODO golden apple has 4x the saturation
+        final float cGoldenHungerSaturationModifier = AppleArmorConfig.goldenHungerSaturationModifier;
 
+        return (
+            cHungerSaturationModifier * (appleArmorCount - goldenAndEnchantedGoldenAppleArmorCount)
+            + cGoldenHungerSaturationModifier * (goldenAndEnchantedGoldenAppleArmorCount)
+            ) / appleArmorCount;
+
+    }
+
+    private void addHunger(float food, float saturation){
         final int flooredFood = (int) Math.floor(food);
 
         final float cutOffFoodChance = food % 1;
         final int cutOffFood = cutOffFoodChance >= Math.random() ? 1 : 0;
 
-        this.getHungerManager().add(Math.max(1, flooredFood + cutOffFood), cHungerSaturationModifier);
+        this.getHungerManager().add(Math.max(1, flooredFood + cutOffFood), saturation);
         this.world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_GENERIC_EAT, this.getSoundCategory(), 0.4F + food / 2.5F, 1.0F);
     }
 
@@ -144,17 +152,25 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
 
     private void addStatusEffects(int goldenAppleArmorCount, int enchantedGoldenAppleArmorCount){
         AppleArmorMod.LOGGER.info("golden Count: " + goldenAppleArmorCount + ", enchanted golden Count: " + enchantedGoldenAppleArmorCount);
+        final int cGoldenArmorRegenerationDuration = AppleArmorConfig.goldenArmorRegenerationDuration;
+        final int cGoldenArmorAbsorptionDuration = AppleArmorConfig.goldenArmorAbsorptionDuration;
 
-        // duration for one piece is 1/50th of the original value of 1 apple
+        final int cEnchantedGoldenArmorRegenerationDuration = AppleArmorConfig.enchantedGoldenArmorRegenerationDuration;
+        final int cEnchantedGoldenArmorAbsorptionDuration = AppleArmorConfig.enchantedGoldenArmorAbsorptionDuration;
+        final int cEnchantedGoldenArmorResistanceDuration = AppleArmorConfig.enchantedGoldenArmorResistanceDuration;
+        final int cEnchantedGoldenArmorFireResistanceDuration = AppleArmorConfig.enchantedGoldenArmorFireResistanceDuration;
+
+
+        // base duration for one piece is 1/50th of the original value of 1 apple
         if(goldenAppleArmorCount > 0){
-            this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION,   2 * goldenAppleArmorCount, 1));
-            this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION,     48 * goldenAppleArmorCount, 0));
+            this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION,       cGoldenArmorRegenerationDuration *  goldenAppleArmorCount, 1));
+            this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION,         cGoldenArmorAbsorptionDuration *    goldenAppleArmorCount, 0));
         }
         if(enchantedGoldenAppleArmorCount > 0){
-            this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION,       8 * enchantedGoldenAppleArmorCount, 1));
-            this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION,         48 * enchantedGoldenAppleArmorCount, 3));
-            this.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE,         120 * enchantedGoldenAppleArmorCount, 0));
-            this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE,    120 * enchantedGoldenAppleArmorCount, 0));
+            this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION,       cEnchantedGoldenArmorRegenerationDuration *     enchantedGoldenAppleArmorCount, 1));
+            this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION,         cEnchantedGoldenArmorAbsorptionDuration *       enchantedGoldenAppleArmorCount, 3));
+            this.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE,         cEnchantedGoldenArmorResistanceDuration *       enchantedGoldenAppleArmorCount, 0));
+            this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE,    cEnchantedGoldenArmorFireResistanceDuration *   enchantedGoldenAppleArmorCount, 0));
         }
     }
 

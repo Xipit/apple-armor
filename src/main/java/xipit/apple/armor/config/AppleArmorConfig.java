@@ -19,6 +19,30 @@ public class AppleArmorConfig extends MidnightConfig {
     public static float hungerSaturationModifier = 0.3F;
 
 
+    @Comment public static  Comment goldenArmorConfigComment;
+    @Entry
+    public static float goldenHungerSaturationModifier = 1.2F;
+
+    @Comment public static  Comment goldenArmorStatusEffectConfigComment;
+
+    // unenchanted
+    @Entry(min = 0)
+    public static int goldenArmorRegenerationDuration = 2;
+    @Entry(min = 0)
+    public static int goldenArmorAbsorptionDuration = 48;
+    // enchanted
+    @Entry(min = 0)
+    public static int enchantedGoldenArmorRegenerationDuration = 8;
+    @Entry(min = 0)
+    public static int enchantedGoldenArmorAbsorptionDuration = 48;
+    @Entry(min = 0)
+    public static int enchantedGoldenArmorResistanceDuration = 120;
+    @Entry(min = 0)
+    public static int enchantedGoldenArmorFireResistanceDuration = 120;
+
+
+
+
     @Comment public static  Comment otherConfigComment;
     @Entry(min = 0, max = 64)
     public static int applesDroppedOnArmorPieceBreak = 1;
