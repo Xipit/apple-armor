@@ -1,3 +1,5 @@
-- apple(s) drop when an armor piece breaks (configurable)
-- improved configuration structure and cleaned up descriptions
-- continuing forward: version numbers won't change for different Minecraft versions (e.g. 1.2.0+1.18.2 & 1.2.0+1.19.2 instead of 1.1.0+1.18.2 & 1.1.1+1.19.2)
+- adds golden apple armor
+  - new texture
+  - bestows status effects when being hit
+  - fully configurable
+  - enhanced effect when golden apple armor is enchanted (doesn't matter which enchantment)

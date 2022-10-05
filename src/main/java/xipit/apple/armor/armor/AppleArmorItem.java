@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class AppleArmorItem extends ArmorItem {
-    private final String id;
+    protected final String id;
 
 
     public AppleArmorItem(String id, ArmorMaterial material, EquipmentSlot slot) {
@@ -20,7 +20,12 @@ public class AppleArmorItem extends ArmorItem {
 
     @Override
     public void appendTooltip(ItemStack itemStack, World world, List<Text> tooltip, TooltipContext tooltipContext){
-        tooltip.add( Text.translatable("item.apple-armor." + this.id + ".tooltip").formatted(Formatting.LIGHT_PURPLE));
-        tooltip.add( Text.translatable("item.apple-armor.general.tooltip").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
+        tooltip.add( Text.translatable("item.apple-armor.general.tooltip").formatted(Formatting.LIGHT_PURPLE));
+        tooltip.add( Text.translatable("item.apple-armor.general_increase.tooltip").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
+
+        if(id.contains("golden")){
+            tooltip.add( Text.translatable("item.apple-armor.golden_general.tooltip").formatted(Formatting.LIGHT_PURPLE));
+            tooltip.add( Text.translatable("item.apple-armor.golden_general_increase.tooltip").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
+        }
     }
 }
