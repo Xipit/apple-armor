@@ -5,3 +5,6 @@ Golden Apple Armor
 - gives same hunger back
 - gives very brief amount of golden apple effects
 - if enchanted with anything (doesn't matter what) also give enchanted golden apple effets
+
+TODO:
+- achievements
