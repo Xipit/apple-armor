@@ -10,6 +10,7 @@ import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
+import xipit.apple.armor.AppleArmorMod;
 import xipit.apple.armor.item.ModItems;
 import xipit.apple.armor.util.ModelHandler;
 import xipit.apple.armor.util.RegistryHelper;
@@ -37,6 +38,9 @@ public class AppleArmorHelmet extends AppleArmorItem {
 
     @Environment(EnvType.CLIENT)
     protected BipedEntityModel<LivingEntity> provideArmorModelForSlot(EquipmentSlot slot) {
+
+        AppleArmorMod.LOGGER.info("ARMOR MODEL GETS PROVIDED!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
         var models = MinecraftClient.getInstance().getEntityModelLoader();
         var root = models.getModelPart(
             Objects.equals(this.id, "apple_helmet")

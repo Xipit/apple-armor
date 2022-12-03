@@ -84,6 +84,7 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
                 float enduredDamage = itemStack.getDamage() + amount;
                 if(enduredDamage > itemStack.getMaxDamage()){
                     dropApple(itemStack);
+                    AppleArmorMod.LOGGER.info("APPLE IS DROPPED DUE TO " + itemStack.getItem().getName());
                 }
 
 

@@ -32,9 +32,11 @@ public class AppleArmorClient implements ClientModInitializer{
 
         ArmorRenderer renderer = (matrices, vertexConsumer, stack, entity, slot, light, original) -> {
             AppleArmorHelmet appleArmorHelmet = (AppleArmorHelmet) stack.getItem();
+
             var model = appleArmorHelmet.getArmorModel();
-            var texture = appleArmorHelmet.getArmorTexture(stack, slot);
             original.setAttributes(model);
+            var texture = appleArmorHelmet.getArmorTexture(stack, slot);
+
             ArmorRenderer.renderPart(matrices, vertexConsumer, light, stack, model, texture);
         };
         ArmorRenderer.register(renderer, armors);
