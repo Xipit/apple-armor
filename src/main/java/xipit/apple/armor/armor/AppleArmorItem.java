@@ -14,7 +14,7 @@ public class AppleArmorItem extends ArmorItem {
 
 
     public AppleArmorItem(String id, ArmorMaterial material, EquipmentSlot slot) {
-        super(material, slot, new Item.Settings().group(ItemGroup.COMBAT));
+        super(material, slot, new Item.Settings());
         this.id = id;
     }
 

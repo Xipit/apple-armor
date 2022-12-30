@@ -6,7 +6,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.item.Item;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
 import xipit.apple.armor.armor.AppleArmorHelmet;
 import xipit.apple.armor.util.ModelHandler;
 
@@ -25,16 +25,16 @@ public class AppleArmorClient implements ClientModInitializer{
     }
     
     private void registerArmorRenderer() {
-        Item[] armors = Registry.ITEM.stream()
+        Item[] armors = Registries.ITEM.stream()
                 .filter(i -> i instanceof AppleArmorHelmet
-                        && Registry.ITEM.getKey(i).get().getValue().getNamespace().equals(AppleArmorMod.MOD_ID))
+                        && Registries.ITEM.getKey(i).get().getValue().getNamespace().equals(AppleArmorMod.MOD_ID))
                 .toArray(Item[]::new);
 
         ArmorRenderer renderer = (matrices, vertexConsumer, stack, entity, slot, light, original) -> {
             AppleArmorHelmet appleArmorHelmet = (AppleArmorHelmet) stack.getItem();
 
             var model = appleArmorHelmet.getArmorModel();
-            original.setAttributes(model);
+            original.copyBipedStateTo(model);
             var texture = appleArmorHelmet.getArmorTexture(stack, slot);
 
             ArmorRenderer.renderPart(matrices, vertexConsumer, light, stack, model, texture);

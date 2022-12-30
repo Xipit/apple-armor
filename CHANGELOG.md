@@ -1,5 +1,1 @@
-- adds golden apple armor
-  - new texture
-  - bestows status effects when being hit
-  - fully configurable
-  - enhanced effect when golden apple armor is enchanted (doesn't matter which enchantment)
+- update to 1.19.3

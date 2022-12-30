@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "apple-armor",
-  "version": "2.0.0+1.19.2",
+  "version": "2.0.0+1.19.3",
 
   "name": "Apple Armor",
   "description": "Adds apple armor, which replenishes hunger when damaged",

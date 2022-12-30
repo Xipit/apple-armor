@@ -4,8 +4,9 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import xipit.apple.armor.AppleArmorMod;
 import xipit.apple.armor.armor.AppleArmorHelmet;
 import xipit.apple.armor.armor.AppleArmorItem;
@@ -39,6 +40,6 @@ public class ModItems {
     }
 
     private static  void registerItem(String name, Item item){
-        Registry.register(Registry.ITEM, new Identifier(AppleArmorMod.MOD_ID, name), item);
+        Registry.register(Registries.ITEM, new Identifier(AppleArmorMod.MOD_ID, name), item);
     }
 }
