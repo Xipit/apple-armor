@@ -1,1 +1,1 @@
-- update to 1.19.3
+- fix division by zero bug, when no apple armor is worn that cause saturation to become NaN

@@ -91,18 +91,15 @@ public abstract class ModPlayerEntityMixin extends LivingEntity {
             }
         }
 
-        if (allAppleArmorCount > 0) {
-            if(allAppleArmorCount == 4) food += cHungerFullSetBonus;
+        if(allAppleArmorCount == 4) food += cHungerFullSetBonus;
 
-            int protectionAmount = EnchantmentHelper.getProtectionAmount(this.inventory.armor, source);
-            food += cHungerIncreasedByProtectionEnchantmentLevel * protectionAmount;
+        int protectionAmount = EnchantmentHelper.getProtectionAmount(this.inventory.armor, source);
+        food += cHungerIncreasedByProtectionEnchantmentLevel * protectionAmount;
 
-            final float saturation = calculateFoodSaturation(allAppleArmorCount, (goldenAppleArmorCount + enchantedGoldenAppleArmorCount));
-            addHunger(food, saturation);
-
-            // TODO achievements
-            addStatusEffects(goldenAppleArmorCount, enchantedGoldenAppleArmorCount);
-        }
+        final float saturation = calculateFoodSaturation(allAppleArmorCount, (goldenAppleArmorCount + enchantedGoldenAppleArmorCount));
+        addHunger(food, saturation);
+        // TODO achievements
+        addStatusEffects(goldenAppleArmorCount, enchantedGoldenAppleArmorCount);
     }
 
     private float calculateFoodSaturation(int appleArmorCount, int goldenAndEnchantedGoldenAppleArmorCount){
